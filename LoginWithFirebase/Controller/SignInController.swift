@@ -15,7 +15,7 @@ class SignInController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    title = "Sign In"
+    title = Constants.title.signIn
   }
 
   @IBAction func pressSignUp(_ sender: UIButton) {

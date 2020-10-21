@@ -12,7 +12,7 @@ class ContentViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    title = "Content"
+    title = Constants.title.content
     navigationItem.hidesBackButton = true
   }
 
