@@ -26,7 +26,7 @@ class SignUpController: UIViewController {
           print(error)
         }
 
-        self.performSegue(withIdentifier: "signUpToContent", sender: self)
+        self.performSegue(withIdentifier: Constants.segue.signUpToContent, sender: self)
       }
     }
   }

@@ -25,7 +25,7 @@ class SignInController: UIViewController {
           print(error)
         }
 
-        self.performSegue(withIdentifier: "signInToContent", sender: self)
+        self.performSegue(withIdentifier: Constants.segue.signInToContent, sender: self)
       }
     }
   }
