@@ -17,6 +17,7 @@ class ContentViewController: UIViewController {
     title = Constants.title.content
     navigationItem.hidesBackButton = true
     tableView.dataSource = self
+    tableView.register(UINib(nibName: "ContentTableViewCell", bundle: nil), forCellReuseIdentifier: "contentCellidentifier")
   }
 
   @IBAction func pressLogout(_ sender: UIBarButtonItem) {
@@ -37,8 +38,8 @@ extension ContentViewController: UITableViewDataSource {
   }
 
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: "dummyCellIdentifier", for: indexPath)
-    cell.textLabel?.text = dummyData[indexPath.row]
+    let cell = tableView.dequeueReusableCell(withIdentifier: "contentCellidentifier", for: indexPath) as! ContentTableViewCell
+    cell.itemLabel.text = dummyData[indexPath.row]
     return cell
   }
 }
