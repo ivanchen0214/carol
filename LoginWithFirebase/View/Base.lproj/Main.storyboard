@@ -3,7 +3,7 @@
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -122,8 +122,30 @@
                     <view key="view" contentMode="scaleToFill" id="F7P-gd-7rZ">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="yw6-5t-uhT">
+                                <rect key="frame" x="0.0" y="88" width="414" height="808"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="dummyCellIdentifier" id="fMD-SK-hQ6">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="fMD-SK-hQ6" id="7Xf-Ud-khV">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="2gG-En-WaZ"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="yw6-5t-uhT" secondAttribute="bottom" id="A6x-r4-EVi"/>
+                            <constraint firstItem="yw6-5t-uhT" firstAttribute="trailing" secondItem="2gG-En-WaZ" secondAttribute="trailing" id="OnE-XW-sN1"/>
+                            <constraint firstItem="yw6-5t-uhT" firstAttribute="leading" secondItem="2gG-En-WaZ" secondAttribute="leading" id="Xwp-VH-8fG"/>
+                            <constraint firstItem="yw6-5t-uhT" firstAttribute="top" secondItem="2gG-En-WaZ" secondAttribute="top" id="x31-iu-vys"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="wQh-0c-U7V">
                         <barButtonItem key="rightBarButtonItem" title="Log out" id="IT5-fI-5Ke">
@@ -132,10 +154,13 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="tableView" destination="yw6-5t-uhT" id="6hQ-bV-R5m"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VVz-zL-XWm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2812" y="94"/>
+            <point key="canvasLocation" x="2811.594202898551" y="93.75"/>
         </scene>
         <!--Sign Up-->
         <scene sceneID="JQt-az-Gaf">
