@@ -15,4 +15,10 @@ struct Constants {
     static let signInToContent = "signInToContent"
     static let signUpToContent = "signUpToContent"
   }
+  struct xib {
+    static let content = "ContentTableViewCell"
+  }
+  struct cell {
+    static let content = "contentCellidentifier"
+  }
 }

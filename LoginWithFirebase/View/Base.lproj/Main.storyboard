@@ -123,18 +123,71 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="yw6-5t-uhT">
-                                <rect key="frame" x="0.0" y="88" width="414" height="808"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                            </tableView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Dnh-9J-3Ch">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="975-j6-vgU" userLabel="List view">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="657.5"/>
+                                        <subviews>
+                                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="yw6-5t-uhT" userLabel="UITableView">
+                                                <rect key="frame" x="0.0" y="0.0" width="414" height="657.5"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                            </tableView>
+                                        </subviews>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstItem="yw6-5t-uhT" firstAttribute="leading" secondItem="975-j6-vgU" secondAttribute="leading" id="3qK-nK-jWg"/>
+                                            <constraint firstAttribute="trailing" secondItem="yw6-5t-uhT" secondAttribute="trailing" id="Xrt-og-Pv2"/>
+                                            <constraint firstItem="yw6-5t-uhT" firstAttribute="top" secondItem="975-j6-vgU" secondAttribute="top" id="d2B-Gc-eIw"/>
+                                            <constraint firstAttribute="bottom" secondItem="yw6-5t-uhT" secondAttribute="bottom" id="jZH-Dl-APC"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eEK-tk-jcJ" userLabel="TextFieldVew">
+                                        <rect key="frame" x="0.0" y="657.5" width="414" height="50"/>
+                                        <subviews>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nB0-gO-NOB">
+                                                <rect key="frame" x="10" y="10" width="394" height="30"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" returnKeyType="next"/>
+                                            </textField>
+                                        </subviews>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="nB0-gO-NOB" secondAttribute="bottom" constant="10" id="AzQ-w9-osJ"/>
+                                            <constraint firstItem="nB0-gO-NOB" firstAttribute="top" secondItem="eEK-tk-jcJ" secondAttribute="top" constant="10" id="BiZ-Oa-nzr"/>
+                                            <constraint firstItem="nB0-gO-NOB" firstAttribute="leading" secondItem="eEK-tk-jcJ" secondAttribute="leading" constant="10" id="Rtg-K2-xC1"/>
+                                            <constraint firstAttribute="trailing" secondItem="nB0-gO-NOB" secondAttribute="trailing" constant="10" id="dpg-J1-5Z2"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VKG-Js-Fng" userLabel="Button view">
+                                        <rect key="frame" x="0.0" y="707.5" width="414" height="66.5"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n4r-hz-1bs">
+                                                <rect key="frame" x="0.0" y="0.0" width="414" height="66.5"/>
+                                                <state key="normal" title="Add Item"/>
+                                                <connections>
+                                                    <action selector="pressAddItem:" destination="odi-1Y-Ymg" eventType="touchUpInside" id="rpL-jL-MDK"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstItem="n4r-hz-1bs" firstAttribute="leading" secondItem="VKG-Js-Fng" secondAttribute="leading" id="4L8-QG-avi"/>
+                                            <constraint firstItem="n4r-hz-1bs" firstAttribute="top" secondItem="VKG-Js-Fng" secondAttribute="top" id="OcX-YZ-lJK"/>
+                                            <constraint firstAttribute="trailing" secondItem="n4r-hz-1bs" secondAttribute="trailing" id="WCB-rV-0xm"/>
+                                            <constraint firstAttribute="bottom" secondItem="n4r-hz-1bs" secondAttribute="bottom" id="dxX-WR-nU2"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="2gG-En-WaZ"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="yw6-5t-uhT" secondAttribute="bottom" id="A6x-r4-EVi"/>
-                            <constraint firstItem="yw6-5t-uhT" firstAttribute="trailing" secondItem="2gG-En-WaZ" secondAttribute="trailing" id="OnE-XW-sN1"/>
-                            <constraint firstItem="yw6-5t-uhT" firstAttribute="leading" secondItem="2gG-En-WaZ" secondAttribute="leading" id="Xwp-VH-8fG"/>
-                            <constraint firstItem="yw6-5t-uhT" firstAttribute="top" secondItem="2gG-En-WaZ" secondAttribute="top" id="x31-iu-vys"/>
+                            <constraint firstItem="Dnh-9J-3Ch" firstAttribute="top" secondItem="2gG-En-WaZ" secondAttribute="top" id="3IQ-A2-Xng"/>
+                            <constraint firstItem="Dnh-9J-3Ch" firstAttribute="leading" secondItem="2gG-En-WaZ" secondAttribute="leading" id="F0g-a1-rNr"/>
+                            <constraint firstItem="2gG-En-WaZ" firstAttribute="bottom" secondItem="Dnh-9J-3Ch" secondAttribute="bottom" id="lhM-uH-jGy"/>
+                            <constraint firstItem="Dnh-9J-3Ch" firstAttribute="trailing" secondItem="2gG-En-WaZ" secondAttribute="trailing" id="vhZ-Gp-9II"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="wQh-0c-U7V">
@@ -145,6 +198,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="itemTextField" destination="nB0-gO-NOB" id="xzk-kb-3I5"/>
                         <outlet property="tableView" destination="yw6-5t-uhT" id="6hQ-bV-R5m"/>
                     </connections>
                 </viewController>
