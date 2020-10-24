@@ -7,6 +7,7 @@
 
 struct Constants {
   struct title {
+    static let landing = "Landing"
     static let signIn = "Sign In"
     static let signUp = "Sign Up"
     static let content = "Content"

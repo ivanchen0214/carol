@@ -51,7 +51,14 @@ extension ContentViewController: UITableViewDataSource {
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cell.content, for: indexPath) as! ContentTableViewCell
+
+    cell.index = indexPath.row
     cell.itemLabel.text = dummyData[indexPath.row]
+    cell.callbackHandler = {(index) in
+      self.dummyData.remove(at: index)
+      self.tableView.reloadData()
+    }
+
     return cell
   }
 }

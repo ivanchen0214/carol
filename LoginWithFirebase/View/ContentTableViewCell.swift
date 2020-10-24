@@ -8,10 +8,12 @@
 import UIKit
 
 class ContentTableViewCell: UITableViewCell {
-  
   @IBOutlet weak var itemLabel: UILabel!
   @IBOutlet weak var itemView: UIView!
   @IBOutlet weak var itemBtnView: UIView!
+  
+  var index: Int?
+  var callbackHandler:((Int) -> Void)?
   
   override func awakeFromNib() {
     super.awakeFromNib()
@@ -21,5 +23,11 @@ class ContentTableViewCell: UITableViewCell {
   
   override func setSelected(_ selected: Bool, animated: Bool) {
     super.setSelected(selected, animated: animated)
+  }
+  
+  @IBAction func pressDelete(_ sender: UIButton) {
+    if let index = index {
+      callbackHandler?(index)
+    }
   }
 }
