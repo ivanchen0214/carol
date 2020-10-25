@@ -40,6 +40,8 @@ class ContentViewController: UIViewController {
     if let newItem = itemTextField.text, !newItem.isEmpty {
       dummyData.append(newItem)
       tableView.reloadData()
+      let indexPath = IndexPath(row: dummyData.count - 1, section: 0)
+      tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
     }
   }
 }
@@ -51,14 +53,14 @@ extension ContentViewController: UITableViewDataSource {
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cell.content, for: indexPath) as! ContentTableViewCell
-
+    
     cell.index = indexPath.row
     cell.itemLabel.text = dummyData[indexPath.row]
     cell.callbackHandler = {(index) in
       self.dummyData.remove(at: index)
       self.tableView.reloadData()
     }
-
+    
     return cell
   }
 }
