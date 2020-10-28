@@ -3,7 +3,7 @@
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -24,10 +24,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="403"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MAi-Hx-hge" customClass="CLTypingLabel" customModule="CLTypingLabel">
-                                                <rect key="frame" x="207" y="171.5" width="0.0" height="60"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="60" id="olh-7h-HDA"/>
-                                                </constraints>
+                                                <rect key="frame" x="207" y="201.5" width="0.0" height="0.0"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="50"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -35,8 +32,8 @@
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
-                                            <constraint firstItem="MAi-Hx-hge" firstAttribute="centerY" secondItem="v7v-h5-DZT" secondAttribute="centerY" id="THQ-5L-RHj"/>
-                                            <constraint firstItem="MAi-Hx-hge" firstAttribute="centerX" secondItem="v7v-h5-DZT" secondAttribute="centerX" id="uff-ea-Jkb"/>
+                                            <constraint firstItem="MAi-Hx-hge" firstAttribute="centerY" secondItem="v7v-h5-DZT" secondAttribute="centerY" id="agp-z3-bkO"/>
+                                            <constraint firstItem="MAi-Hx-hge" firstAttribute="centerX" secondItem="v7v-h5-DZT" secondAttribute="centerX" id="c6W-dY-v9a"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1NK-67-uKX">
@@ -45,7 +42,7 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pDg-Jh-2Hv">
                                                 <rect key="frame" x="32" y="0.0" width="350" height="70"/>
                                                 <subviews>
-                                                    <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Input your city" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="npZ-i0-DFS">
+                                                    <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Taipei" borderStyle="roundedRect" placeholder="Input your city" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="npZ-i0-DFS">
                                                         <rect key="frame" x="20" y="20" width="236" height="34"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -87,7 +84,7 @@
                     </view>
                     <connections>
                         <outlet property="cityField" destination="npZ-i0-DFS" id="H0s-gm-0YE"/>
-                        <outlet property="titleLabel" destination="MAi-Hx-hge" id="eX8-BB-WbK"/>
+                        <outlet property="titleLabel" destination="MAi-Hx-hge" id="uZz-1n-Nwn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

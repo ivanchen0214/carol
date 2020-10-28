@@ -1,5 +1,6 @@
 import Foundation
 import CoreLocation
+import Alamofire
 
 protocol WeatherManagerDelegate {
   //看起來更像apple希望的format
@@ -8,57 +9,58 @@ protocol WeatherManagerDelegate {
 }
 
 struct WeatherManager {
-  let urlString: String
+  let url: String = "https://api.openweathermap.org/data/2.5/weather?appid=%@"
+  let apiKey: String = ""
   var delegate: WeatherManagerDelegate?
   
-  init(_ urlString: String) {
-    self.urlString = urlString
+  init() {
   }
   
-  func fetch(cityName: String) {
-    let fullUrl = "\(urlString)&q=\(cityName)"
-    print("fullUrl", fullUrl)
-    callAPI(fullUrl)
-  }
-
-  func fetch(latitude: CLLocationDegrees, longitude: CLLocationDegrees) {
-    let fullUrl = "\(urlString)&lat=\(latitude)&lon=\(longitude)"
-    print("fullUrl", fullUrl)
-    callAPI(fullUrl)
-  }
-
-  func callAPI(_ fullUrl: String) {
-    if let url = URL(string: fullUrl) {
-      let session = URLSession(configuration: .default)
-      let task = session.dataTask(with: url) { (data, response, error) in
-        if error != nil {
-          self.delegate?.didFailWithError(error: error!)
-          return
-        }
-        
-        //        if let jsonString = String(data: data!, encoding: .utf8) {
-        //          print(jsonString)
-        //        }
-        
-        if let safeData = data {
-          if let weather = self.parseJSON(safeData) {
+  func fetch(byCity cityName: String) {
+    var fullUrl = "\(url)&q=%@"
+    let city = cityName.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? cityName
+    
+    fullUrl = String(format: fullUrl, apiKey, city)
+    
+    AF.request(fullUrl).responseJSON { response in
+      switch response.result {
+      case .success:
+        if let jsonData = response.data {
+          if let weather = self.parseJSON(jsonData) {
             self.delegate?.didUpdateWeather(self, weather: weather)
           }
         }
+      case .failure(let error):
+        print(error)
       }
-      
-      task.resume()
     }
   }
   
-  //- WeatherModel? 是因為可能return nil
+  func fetch(latitude: CLLocationDegrees, longitude: CLLocationDegrees) {
+    var fullUrl = "\(url)"
+    fullUrl = String(format: fullUrl, apiKey)
+    fullUrl += "&lat=\(latitude)&lon=\(longitude)"
+    
+    AF.request(fullUrl).responseJSON { response in
+      switch response.result {
+      case .success:
+        if let jsonData = response.data {
+          if let weather = self.parseJSON(jsonData) {
+            self.delegate?.didUpdateWeather(self, weather: weather)
+          }
+        }
+      case .failure(let error):
+        print(error)
+      }
+    }
+  }
+  
   func parseJSON(_ weatherData: Data) -> WeatherModel? {
     let decoder = JSONDecoder()
     
     do {
       let decodeData = try decoder.decode(WeatherData.self, from: weatherData)
       let weather = WeatherModel(name: decodeData.name)
-      print(weather)
       return weather
     } catch {
       self.delegate?.didFailWithError(error: error)

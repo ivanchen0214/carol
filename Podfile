@@ -7,5 +7,6 @@ target 'FetchDataFromAPI' do
 
   # Pods for FetchDataFromAPI
   pod 'CLTypingLabel'
+  pod 'Alamofire'
 
 end

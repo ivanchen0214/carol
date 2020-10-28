@@ -13,7 +13,7 @@ class WeatherViewController: UIViewController {
   @IBOutlet weak var titleLabel: CLTypingLabel!
   @IBOutlet weak var cityField: UITextField!
 
-  var weatherManager = WeatherManager("https://api.openweathermap.org/data/2.5/weather?appid=")
+  var weatherManager = WeatherManager()
   let locationManager = CLLocationManager()
 
   override func viewDidLoad() {
@@ -25,11 +25,13 @@ class WeatherViewController: UIViewController {
     
     cityField.delegate = self
     weatherManager.delegate = self
+    
+    titleLabel.text = "?"
   }
 
   @IBAction func fetchWeathByCity(_ sender: UIButton) {
     if let city = cityField.text {
-      weatherManager.fetch(cityName: city)
+      weatherManager.fetch(byCity: city)
     }
   }
 }
@@ -59,7 +61,7 @@ extension WeatherViewController: UITextFieldDelegate {
 
   func textFieldShouldReturn(_ textField: UITextField) -> Bool {
     if let city = cityField.text {
-      weatherManager.fetch(cityName: city)
+      weatherManager.fetch(byCity: city)
     }
 
     cityField.endEditing(true)
