@@ -19,6 +19,15 @@ class ListController: UITableViewController {
     UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
     
     navigationItem.title = "List"
+    
+//    for number in 0...20 {
+//      print(number)
+//      let newItem = Item()
+//      newItem.title = "asdf"
+//      newItem.selected = false
+//
+//      self.itemAry.append(newItem)
+//    }
   }
   
   @IBAction func pressBackBtn(_ sender: UIBarButtonItem) {
@@ -66,7 +75,19 @@ class ListController: UITableViewController {
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "itemCell", for: indexPath)
     cell.textLabel?.text = self.itemAry[indexPath.row].title
+
+    if !itemAry[indexPath.row].selected {
+      cell.accessoryType = UITableViewCell.AccessoryType.none
+    } else {
+      cell.accessoryType = UITableViewCell.AccessoryType.checkmark
+    }
     
     return cell
+  }
+  
+  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    itemAry[indexPath.row].selected = !itemAry[indexPath.row].selected
+    tableView.reloadData()
+    tableView.deselectRow(at: indexPath, animated: true)
   }
 }
