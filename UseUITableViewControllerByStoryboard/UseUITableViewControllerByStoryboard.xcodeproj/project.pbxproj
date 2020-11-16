@@ -16,6 +16,7 @@
 		B6208BB4255F557C00A7FD55 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6208BB2255F557C00A7FD55 /* LaunchScreen.storyboard */; };
 		B6208BC3255F5FFB00A7FD55 /* ListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6208BC2255F5FFB00A7FD55 /* ListController.swift */; };
 		B6208BC7255F658A00A7FD55 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6208BC6255F658A00A7FD55 /* Item.swift */; };
+		B649689A2560BB1A00CAE7D4 /* CoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B64968982560BB1A00CAE7D4 /* CoreData.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		B6208BB5255F557C00A7FD55 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B6208BC2255F5FFB00A7FD55 /* ListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListController.swift; sourceTree = "<group>"; };
 		B6208BC6255F658A00A7FD55 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		B64968992560BB1A00CAE7D4 /* CoreData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreData.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +98,7 @@
 			isa = PBXGroup;
 			children = (
 				B6208BC6255F658A00A7FD55 /* Item.swift */,
+				B64968982560BB1A00CAE7D4 /* CoreData.xcdatamodeld */,
 			);
 			path = "Data model";
 			sourceTree = "<group>";
@@ -176,6 +179,7 @@
 				B6208BA7255F557B00A7FD55 /* SceneDelegate.swift in Sources */,
 				B6208BC7255F658A00A7FD55 /* Item.swift in Sources */,
 				B6208BAF255F557B00A7FD55 /* UseUITableViewControllerByStoryboard.xcdatamodeld in Sources */,
+				B649689A2560BB1A00CAE7D4 /* CoreData.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -252,7 +256,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -307,7 +311,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -386,6 +390,16 @@
 			);
 			currentVersion = B6208BAE255F557B00A7FD55 /* UseUITableViewControllerByStoryboard.xcdatamodel */;
 			path = UseUITableViewControllerByStoryboard.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+		B64968982560BB1A00CAE7D4 /* CoreData.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				B64968992560BB1A00CAE7D4 /* CoreData.xcdatamodel */,
+			);
+			currentVersion = B64968992560BB1A00CAE7D4 /* CoreData.xcdatamodel */;
+			path = CoreData.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
