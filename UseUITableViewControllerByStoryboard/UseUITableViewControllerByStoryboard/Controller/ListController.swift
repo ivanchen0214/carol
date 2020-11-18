@@ -10,7 +10,9 @@
 import UIKit
 import CoreData
 
-class ListController: UITableViewController {
+class ListController: UITableViewController, UISearchBarDelegate {
+  @IBOutlet weak var searchBar: UISearchBar!
+
   let dataFilePath = FileManager.default.urls(for: FileManager.SearchPathDirectory.documentDirectory, in: FileManager.SearchPathDomainMask.userDomainMask)
   //  let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
   let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -29,12 +31,9 @@ class ListController: UITableViewController {
     UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
     
     navigationItem.title = "List"
+    searchBar.delegate = self
     
-    do {
-      itemAry = try context.fetch(request)
-    } catch {
-      print("Error fetch data from context \(error)")
-    }
+    loadData()
   }
   
   @IBAction func pressBackBtn(_ sender: UIBarButtonItem) {
@@ -46,6 +45,7 @@ class ListController: UITableViewController {
     addAlert = UIAlertController(title: "Add A New Item", message: "", preferredStyle: UIAlertController.Style.alert)
     addAlert?.addTextField { (alertTextField) in
       alertTextField.keyboardType = UIKeyboardType.default
+      alertTextField.returnKeyType = UIReturnKeyType.go
       alertTextField.placeholder = "something..."
       alertTextField.addTarget(self, action: #selector(ListController.alertTextFieldDidChange(_:)), for: UIControl.Event.editingChanged)
     }
@@ -54,16 +54,12 @@ class ListController: UITableViewController {
       let textField = self.addAlert?.textFields![0]
       
       if let text = textField?.text {
+        textField?.resignFirstResponder()
         let newItem = Items(context: self.context)
         newItem.title = text
         newItem.selected = false
         self.itemAry.append(newItem)
-        
-        do {
-          try self.context.save()
-        } catch {
-          print("Error saving context \(error)")
-        }
+        self.saveData()
         
         self.tableView.reloadData()
       }
@@ -153,6 +149,7 @@ class ListController: UITableViewController {
       
       self.editAlert?.addTextField { (alertTextField) in
         alertTextField.keyboardType = UIKeyboardType.default
+        alertTextField.returnKeyType = UIReturnKeyType.go
         alertTextField.placeholder = "something..."
         alertTextField.text = self.itemAry[indexPath.row].title
         alertTextField.addTarget(self, action: #selector(ListController.alertTextFieldDidChange(_:)), for: UIControl.Event.editingChanged)
@@ -162,13 +159,9 @@ class ListController: UITableViewController {
         let textField = self.editAlert?.textFields![0]
         
         if let text = textField?.text {
+          textField?.resignFirstResponder()
           self.itemAry[indexPath.row].setValue(text, forKey: "title")
-
-          do {
-            try self.context.save()
-          } catch {
-            print("Error saving context \(error)")
-          }
+          self.saveData()
           
           tableView.reloadData()
         }
@@ -193,12 +186,7 @@ class ListController: UITableViewController {
       let deleteAction = UIAlertAction(title: "Delete", style: UIAlertAction.Style.default) { (UIAlertAction) in
         self.context.delete(self.itemAry[indexPath.row])
         self.itemAry.remove(at: indexPath.row)
-        
-        do {
-          try self.context.save()
-        } catch {
-          print("Error saving context \(error)")
-        }
+        self.saveData()
         
         tableView.reloadData()
       }
@@ -216,5 +204,23 @@ class ListController: UITableViewController {
     deleteAction.backgroundColor = UIColor.red
     
     return UISwipeActionsConfiguration(actions: [deleteAction, editAction])
+  }
+  
+  //MARK: load data
+  func loadData() {
+    do {
+      itemAry = try context.fetch(request)
+    } catch {
+      print("Error fetch data from context \(error)")
+    }
+  }
+  
+  //MARK: save data
+  func saveData() {
+    do {
+      try self.context.save()
+    } catch {
+      print("Error saving context \(error)")
+    }
   }
 }

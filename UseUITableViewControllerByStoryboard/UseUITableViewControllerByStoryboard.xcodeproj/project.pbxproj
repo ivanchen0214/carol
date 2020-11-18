@@ -15,7 +15,6 @@
 		B6208BB1255F557C00A7FD55 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6208BB0255F557C00A7FD55 /* Assets.xcassets */; };
 		B6208BB4255F557C00A7FD55 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6208BB2255F557C00A7FD55 /* LaunchScreen.storyboard */; };
 		B6208BC3255F5FFB00A7FD55 /* ListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6208BC2255F5FFB00A7FD55 /* ListController.swift */; };
-		B6208BC7255F658A00A7FD55 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6208BC6255F658A00A7FD55 /* Item.swift */; };
 		B649689A2560BB1A00CAE7D4 /* CoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B64968982560BB1A00CAE7D4 /* CoreData.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
@@ -30,7 +29,6 @@
 		B6208BB3255F557C00A7FD55 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B6208BB5255F557C00A7FD55 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B6208BC2255F5FFB00A7FD55 /* ListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListController.swift; sourceTree = "<group>"; };
-		B6208BC6255F658A00A7FD55 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		B64968992560BB1A00CAE7D4 /* CoreData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreData.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -97,7 +95,6 @@
 		B6208BC0255F58C200A7FD55 /* Data model */ = {
 			isa = PBXGroup;
 			children = (
-				B6208BC6255F658A00A7FD55 /* Item.swift */,
 				B64968982560BB1A00CAE7D4 /* CoreData.xcdatamodeld */,
 			);
 			path = "Data model";
@@ -177,7 +174,6 @@
 				B6208BC3255F5FFB00A7FD55 /* ListController.swift in Sources */,
 				B6208BA5255F557B00A7FD55 /* AppDelegate.swift in Sources */,
 				B6208BA7255F557B00A7FD55 /* SceneDelegate.swift in Sources */,
-				B6208BC7255F658A00A7FD55 /* Item.swift in Sources */,
 				B6208BAF255F557B00A7FD55 /* UseUITableViewControllerByStoryboard.xcdatamodeld in Sources */,
 				B649689A2560BB1A00CAE7D4 /* CoreData.xcdatamodeld in Sources */,
 			);
