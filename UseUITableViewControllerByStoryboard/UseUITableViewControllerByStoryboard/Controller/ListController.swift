@@ -12,7 +12,7 @@ import CoreData
 
 class ListController: UITableViewController, UISearchBarDelegate {
   @IBOutlet weak var searchBar: UISearchBar!
-
+  
   let dataFilePath = FileManager.default.urls(for: FileManager.SearchPathDirectory.documentDirectory, in: FileManager.SearchPathDomainMask.userDomainMask)
   //  let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
   let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -25,13 +25,16 @@ class ListController: UITableViewController, UISearchBarDelegate {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    
     // print(dataFilePath)
     UINavigationBar.appearance().barTintColor = UIColor.blue
     UINavigationBar.appearance().tintColor = UIColor.white
     UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
     
     navigationItem.title = "List"
+    
     searchBar.delegate = self
+    searchBar.autocapitalizationType = UITextAutocapitalizationType.none
     
     loadData()
   }
@@ -170,7 +173,7 @@ class ListController: UITableViewController, UISearchBarDelegate {
       let cancelAction = UIAlertAction(title: "Cancel", style:  UIAlertAction.Style.cancel) { (UIAlertAction) in
         self.editAlert?.dismiss(animated: true, completion: nil)
       }
-
+      
       self.editAlert?.addAction(editAction)
       self.editAlert?.addAction(cancelAction)
       self.present(self.editAlert!, animated: true, completion: nil)
@@ -207,9 +210,10 @@ class ListController: UITableViewController, UISearchBarDelegate {
   }
   
   //MARK: load data
-  func loadData() {
+  func loadData(_ request: NSFetchRequest<Items> = Items.fetchRequest()) {
     do {
       itemAry = try context.fetch(request)
+      tableView.reloadData()
     } catch {
       print("Error fetch data from context \(error)")
     }
@@ -221,6 +225,37 @@ class ListController: UITableViewController, UISearchBarDelegate {
       try self.context.save()
     } catch {
       print("Error saving context \(error)")
+    }
+  }
+}
+
+extension ListController {
+  func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+    if searchText.count == 0 {
+      loadData()
+      DispatchQueue.main.async {
+        searchBar.resignFirstResponder()
+      }
+    } else {
+      /*
+      let request: NSFetchRequest<Items> = Items.fetchRequest()
+      let predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchText)
+      request.predicate = predicate
+      
+      loadData(request)
+      */
+    }
+  }
+  
+  func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+    let request: NSFetchRequest<Items> = Items.fetchRequest()
+    let predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)
+
+    request.predicate = predicate
+    loadData(request)
+    
+    DispatchQueue.main.async {
+      searchBar.resignFirstResponder()
     }
   }
 }
