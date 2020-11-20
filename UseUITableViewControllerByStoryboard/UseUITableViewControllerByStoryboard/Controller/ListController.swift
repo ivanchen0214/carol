@@ -23,7 +23,7 @@ class ListController: UITableViewController, UISearchBarDelegate {
   var deleteAlert: UIAlertController?
   var itemAry = [Items]()
   
-  var selectedCatory: Categories? {
+  var selectedCategory: Categories? {
     didSet {
       loadData()
     }
@@ -67,8 +67,11 @@ class ListController: UITableViewController, UISearchBarDelegate {
       if let text = textField?.text {
         textField?.resignFirstResponder()
         let newItem = Items(context: self.context)
+        
+        newItem.parentCategories = self.selectedCategory
         newItem.title = text
         newItem.selected = false
+
         self.itemAry.append(newItem)
         self.saveData()
         
@@ -218,7 +221,17 @@ class ListController: UITableViewController, UISearchBarDelegate {
   }
   
   //MARK: load data
-  func loadData(_ request: NSFetchRequest<Items> = Items.fetchRequest()) {
+  func loadData(_ request: NSFetchRequest<Items> = Items.fetchRequest(), withPredicate predicate: NSPredicate? = nil) {
+    let basePredicate = NSPredicate(format: "parentCategories.title MATCHES %@", selectedCategory!.title!)
+    
+    if let addPredicate = predicate {
+      let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [addPredicate, basePredicate])
+      request.predicate = compoundPredicate
+    } else {
+      let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [basePredicate])
+      request.predicate = compoundPredicate
+    }
+    
     do {
       itemAry = try context.fetch(request)
       tableView.reloadData()
@@ -260,7 +273,7 @@ extension ListController {
     let predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)
 
     request.predicate = predicate
-    loadData(request)
+    loadData(request, withPredicate: predicate)
     
     DispatchQueue.main.async {
       searchBar.resignFirstResponder()

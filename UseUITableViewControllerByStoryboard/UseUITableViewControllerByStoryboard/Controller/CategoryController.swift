@@ -140,7 +140,7 @@ extension CategoryController: UITableViewDelegate, UITableViewDataSource {
     let destinationVC = segue.destination as! ListController
     
     if let indexPath = tableView.indexPathForSelectedRow {
-      destinationVC.selectedCatory = categoryAry[indexPath.row]
+      destinationVC.selectedCategory = categoryAry[indexPath.row]
     }
   }
 }
