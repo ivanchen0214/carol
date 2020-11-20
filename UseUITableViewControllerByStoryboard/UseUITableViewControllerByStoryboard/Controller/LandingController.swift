@@ -25,7 +25,7 @@ class LandingController: UIViewController {
   
   @objc func imageTapped(gesture: UIGestureRecognizer) {
     if (gesture.view as? UIImageView) != nil {
-      self.performSegue(withIdentifier: "gotoList", sender: self)
+      self.performSegue(withIdentifier: "gotoCategory", sender: self)
     }
   }
   

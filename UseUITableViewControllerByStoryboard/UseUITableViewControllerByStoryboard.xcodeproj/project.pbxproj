@@ -16,6 +16,7 @@
 		B6208BB4255F557C00A7FD55 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6208BB2255F557C00A7FD55 /* LaunchScreen.storyboard */; };
 		B6208BC3255F5FFB00A7FD55 /* ListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6208BC2255F5FFB00A7FD55 /* ListController.swift */; };
 		B649689A2560BB1A00CAE7D4 /* CoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B64968982560BB1A00CAE7D4 /* CoreData.xcdatamodeld */; };
+		B6F096862564C2E400E4452F /* CategoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F096852564C2E400E4452F /* CategoryController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		B6208BB5255F557C00A7FD55 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B6208BC2255F5FFB00A7FD55 /* ListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListController.swift; sourceTree = "<group>"; };
 		B64968992560BB1A00CAE7D4 /* CoreData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreData.xcdatamodel; sourceTree = "<group>"; };
+		B6F096852564C2E400E4452F /* CategoryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +90,7 @@
 			children = (
 				B6208BA8255F557B00A7FD55 /* LandingController.swift */,
 				B6208BC2255F5FFB00A7FD55 /* ListController.swift */,
+				B6F096852564C2E400E4452F /* CategoryController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -173,6 +176,7 @@
 				B6208BA9255F557B00A7FD55 /* LandingController.swift in Sources */,
 				B6208BC3255F5FFB00A7FD55 /* ListController.swift in Sources */,
 				B6208BA5255F557B00A7FD55 /* AppDelegate.swift in Sources */,
+				B6F096862564C2E400E4452F /* CategoryController.swift in Sources */,
 				B6208BA7255F557B00A7FD55 /* SceneDelegate.swift in Sources */,
 				B6208BAF255F557B00A7FD55 /* UseUITableViewControllerByStoryboard.xcdatamodeld in Sources */,
 				B649689A2560BB1A00CAE7D4 /* CoreData.xcdatamodeld in Sources */,
@@ -332,7 +336,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ivan.chen.UseUITableViewControllerByStoryboard;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -351,7 +355,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ivan.chen.UseUITableViewControllerByStoryboard;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

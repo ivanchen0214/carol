@@ -23,6 +23,12 @@ class ListController: UITableViewController, UISearchBarDelegate {
   var deleteAlert: UIAlertController?
   var itemAry = [Items]()
   
+  var selectedCatory: Categories? {
+    didSet {
+      loadData()
+    }
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     
@@ -35,12 +41,14 @@ class ListController: UITableViewController, UISearchBarDelegate {
     
     searchBar.delegate = self
     searchBar.autocapitalizationType = UITextAutocapitalizationType.none
-    
-    loadData()
   }
   
   @IBAction func pressBackBtn(_ sender: UIBarButtonItem) {
-    self.dismiss(animated: true, completion: nil)
+    // dismiss will back to root page
+    // self.dismiss(animated: true, completion: nil)
+    
+    // pop will back to previous page
+    self.navigationController?.popViewController(animated: true)
   }
   
   @IBAction func pressAddBtn(_ sender: UIBarButtonItem) {
