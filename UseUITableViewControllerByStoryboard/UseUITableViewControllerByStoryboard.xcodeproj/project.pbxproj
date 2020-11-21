@@ -3,11 +3,13 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		9F0F9513FEF374127A486336 /* Pods_UseUITableViewControllerByStoryboard.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 638990E191A6AAC4D3F4BA14 /* Pods_UseUITableViewControllerByStoryboard.framework */; };
+		B6170D742568980A00F460F4 /* Categories.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6170D732568980A00F460F4 /* Categories.swift */; };
+		B6170D772568984C00F460F4 /* Items.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6170D762568984C00F460F4 /* Items.swift */; };
 		B6208BA5255F557B00A7FD55 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6208BA4255F557B00A7FD55 /* AppDelegate.swift */; };
 		B6208BA7255F557B00A7FD55 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6208BA6255F557B00A7FD55 /* SceneDelegate.swift */; };
 		B6208BA9255F557B00A7FD55 /* LandingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6208BA8255F557B00A7FD55 /* LandingController.swift */; };
@@ -16,7 +18,6 @@
 		B6208BB1255F557C00A7FD55 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6208BB0255F557C00A7FD55 /* Assets.xcassets */; };
 		B6208BB4255F557C00A7FD55 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6208BB2255F557C00A7FD55 /* LaunchScreen.storyboard */; };
 		B6208BC3255F5FFB00A7FD55 /* ListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6208BC2255F5FFB00A7FD55 /* ListController.swift */; };
-		B649689A2560BB1A00CAE7D4 /* CoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B64968982560BB1A00CAE7D4 /* CoreData.xcdatamodeld */; };
 		B6F096862564C2E400E4452F /* CategoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F096852564C2E400E4452F /* CategoryController.swift */; };
 /* End PBXBuildFile section */
 
@@ -24,6 +25,8 @@
 		01C91D0ADE4EC33869D7D271 /* Pods-UseUITableViewControllerByStoryboard.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UseUITableViewControllerByStoryboard.debug.xcconfig"; path = "Target Support Files/Pods-UseUITableViewControllerByStoryboard/Pods-UseUITableViewControllerByStoryboard.debug.xcconfig"; sourceTree = "<group>"; };
 		40E0413EA5524ADB848885E8 /* Pods-UseUITableViewControllerByStoryboard.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UseUITableViewControllerByStoryboard.release.xcconfig"; path = "Target Support Files/Pods-UseUITableViewControllerByStoryboard/Pods-UseUITableViewControllerByStoryboard.release.xcconfig"; sourceTree = "<group>"; };
 		638990E191A6AAC4D3F4BA14 /* Pods_UseUITableViewControllerByStoryboard.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_UseUITableViewControllerByStoryboard.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B6170D732568980A00F460F4 /* Categories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Categories.swift; sourceTree = "<group>"; };
+		B6170D762568984C00F460F4 /* Items.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Items.swift; sourceTree = "<group>"; };
 		B6208BA1255F557B00A7FD55 /* UseUITableViewControllerByStoryboard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UseUITableViewControllerByStoryboard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6208BA4255F557B00A7FD55 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B6208BA6255F557B00A7FD55 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -34,7 +37,6 @@
 		B6208BB3255F557C00A7FD55 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B6208BB5255F557C00A7FD55 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B6208BC2255F5FFB00A7FD55 /* ListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListController.swift; sourceTree = "<group>"; };
-		B64968992560BB1A00CAE7D4 /* CoreData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreData.xcdatamodel; sourceTree = "<group>"; };
 		B6F096852564C2E400E4452F /* CategoryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -113,7 +115,8 @@
 		B6208BC0255F58C200A7FD55 /* Data model */ = {
 			isa = PBXGroup;
 			children = (
-				B64968982560BB1A00CAE7D4 /* CoreData.xcdatamodeld */,
+				B6170D732568980A00F460F4 /* Categories.swift */,
+				B6170D762568984C00F460F4 /* Items.swift */,
 			);
 			path = "Data model";
 			sourceTree = "<group>";
@@ -124,7 +127,6 @@
 				01C91D0ADE4EC33869D7D271 /* Pods-UseUITableViewControllerByStoryboard.debug.xcconfig */,
 				40E0413EA5524ADB848885E8 /* Pods-UseUITableViewControllerByStoryboard.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -242,13 +244,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B6170D772568984C00F460F4 /* Items.swift in Sources */,
 				B6208BA9255F557B00A7FD55 /* LandingController.swift in Sources */,
+				B6170D742568980A00F460F4 /* Categories.swift in Sources */,
 				B6208BC3255F5FFB00A7FD55 /* ListController.swift in Sources */,
 				B6208BA5255F557B00A7FD55 /* AppDelegate.swift in Sources */,
 				B6F096862564C2E400E4452F /* CategoryController.swift in Sources */,
 				B6208BA7255F557B00A7FD55 /* SceneDelegate.swift in Sources */,
 				B6208BAF255F557B00A7FD55 /* UseUITableViewControllerByStoryboard.xcdatamodeld in Sources */,
-				B649689A2560BB1A00CAE7D4 /* CoreData.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -461,16 +464,6 @@
 			);
 			currentVersion = B6208BAE255F557B00A7FD55 /* UseUITableViewControllerByStoryboard.xcdatamodel */;
 			path = UseUITableViewControllerByStoryboard.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-		B64968982560BB1A00CAE7D4 /* CoreData.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				B64968992560BB1A00CAE7D4 /* CoreData.xcdatamodel */,
-			);
-			currentVersion = B64968992560BB1A00CAE7D4 /* CoreData.xcdatamodel */;
-			path = CoreData.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

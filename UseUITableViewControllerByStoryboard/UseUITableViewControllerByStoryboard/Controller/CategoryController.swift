@@ -6,17 +6,15 @@
 //
 
 import UIKit
-import CoreData
+import RealmSwift
 
 class CategoryController: UIViewController {
   @IBOutlet weak var tableView: UITableView!
   
-  let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-  let request: NSFetchRequest<Items> = Items.fetchRequest()
+  let realm = try! Realm()
   var addAlert: UIAlertController?
   var deleteAlert: UIAlertController?
-
-  var categoryAry = [Categories]()
+  var categoryAry: Results<Categories>?
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -47,11 +45,11 @@ class CategoryController: UIViewController {
       
       if let text = textField?.text {
         textField?.resignFirstResponder()
-        let newCategory = Categories(context: self.context)
-        newCategory.title = text
-        self.categoryAry.append(newCategory)
-        self.saveData()
         
+        let newCategory = Categories()
+        newCategory.title = text
+
+        self.saveData(newCategory)
         self.tableView.reloadData()
       }
     }
@@ -71,19 +69,28 @@ class CategoryController: UIViewController {
   }
   
   //MARK: load data
-  func loadData(_ request: NSFetchRequest<Categories> = Categories.fetchRequest()) {
-    do {
-      categoryAry = try context.fetch(request)
-      tableView.reloadData()
-    } catch {
-      print("Error fetch data from context \(error)")
-    }
+  func loadData() {
+    categoryAry = realm.objects(Categories.self)
+    tableView.reloadData()
   }
   
   //MARK: save data
-  func saveData() {
+  func saveData(_ category: Categories) {
     do {
-      try self.context.save()
+      try realm.write {
+        realm.add(category)
+      }
+    } catch {
+      print("Error saving context \(error)")
+    }
+  }
+  
+  //MARK: delete data
+  func deleteData(_ category: Categories) {
+    do {
+      try realm.write {
+        realm.delete(category)
+      }
     } catch {
       print("Error saving context \(error)")
     }
@@ -92,12 +99,12 @@ class CategoryController: UIViewController {
 
 extension CategoryController: UITableViewDelegate, UITableViewDataSource {
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return categoryAry.count
+    return categoryAry?.count ?? 0
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell", for: indexPath) as UITableViewCell
-    cell.textLabel?.text = self.categoryAry[indexPath.row].title
+    cell.textLabel?.text = self.categoryAry?[indexPath.row].title ?? "No data"
     
     return cell
   }
@@ -107,13 +114,10 @@ extension CategoryController: UITableViewDelegate, UITableViewDataSource {
   
   func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
     let deleteAction = UIContextualAction(style: UIContextualAction.Style.normal, title: "Delete") { (action, view, completionHandler) in
-      self.deleteAlert = UIAlertController(title: "Delete", message: self.categoryAry[indexPath.row].title, preferredStyle: UIAlertController.Style.alert)
+      self.deleteAlert = UIAlertController(title: "Delete", message: self.categoryAry?[indexPath.row].title, preferredStyle: UIAlertController.Style.alert)
       
       let deleteAction = UIAlertAction(title: "Delete", style: UIAlertAction.Style.default) { (UIAlertAction) in
-        self.context.delete(self.categoryAry[indexPath.row])
-        self.categoryAry.remove(at: indexPath.row)
-        self.saveData()
-        
+        self.deleteData((self.categoryAry?[indexPath.row])!)
         tableView.reloadData()
       }
       
@@ -140,7 +144,7 @@ extension CategoryController: UITableViewDelegate, UITableViewDataSource {
     let destinationVC = segue.destination as! ListController
     
     if let indexPath = tableView.indexPathForSelectedRow {
-      destinationVC.selectedCategory = categoryAry[indexPath.row]
+      destinationVC.selectedCategory = categoryAry?[indexPath.row]
     }
   }
 }

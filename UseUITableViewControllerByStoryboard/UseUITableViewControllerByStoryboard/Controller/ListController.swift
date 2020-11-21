@@ -8,15 +8,10 @@
 // Core Data Path: /Library/Developer/CoreSimulator/Devices/B68B6F20-A1B2-4625-AFF2-263A5BA1C87D/data/Containers/Data/Application/7BA5A189-E6AD-43E3-BD21-B241C9779AA1/Library/Application Support
 
 import UIKit
-import CoreData
 
 class ListController: UITableViewController, UISearchBarDelegate {
   @IBOutlet weak var searchBar: UISearchBar!
   
-  let dataFilePath = FileManager.default.urls(for: FileManager.SearchPathDirectory.documentDirectory, in: FileManager.SearchPathDomainMask.userDomainMask)
-  //  let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-  let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-  let request: NSFetchRequest<Items> = Items.fetchRequest()
   var actionType: String = ""
   var addAlert: UIAlertController?
   var editAlert: UIAlertController?
@@ -66,13 +61,7 @@ class ListController: UITableViewController, UISearchBarDelegate {
       
       if let text = textField?.text {
         textField?.resignFirstResponder()
-        let newItem = Items(context: self.context)
         
-        newItem.parentCategories = self.selectedCategory
-        newItem.title = text
-        newItem.selected = false
-
-        self.itemAry.append(newItem)
         self.saveData()
         
         self.tableView.reloadData()
@@ -198,7 +187,6 @@ class ListController: UITableViewController, UISearchBarDelegate {
       self.deleteAlert = UIAlertController(title: "Delete", message: self.itemAry[indexPath.row].title, preferredStyle: UIAlertController.Style.alert)
       
       let deleteAction = UIAlertAction(title: "Delete", style: UIAlertAction.Style.default) { (UIAlertAction) in
-        self.context.delete(self.itemAry[indexPath.row])
         self.itemAry.remove(at: indexPath.row)
         self.saveData()
         
@@ -221,19 +209,8 @@ class ListController: UITableViewController, UISearchBarDelegate {
   }
   
   //MARK: load data
-  func loadData(_ request: NSFetchRequest<Items> = Items.fetchRequest(), withPredicate predicate: NSPredicate? = nil) {
-    let basePredicate = NSPredicate(format: "parentCategories.title MATCHES %@", selectedCategory!.title!)
-    
-    if let addPredicate = predicate {
-      let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [addPredicate, basePredicate])
-      request.predicate = compoundPredicate
-    } else {
-      let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [basePredicate])
-      request.predicate = compoundPredicate
-    }
-    
+  func loadData() {
     do {
-      itemAry = try context.fetch(request)
       tableView.reloadData()
     } catch {
       print("Error fetch data from context \(error)")
@@ -243,7 +220,6 @@ class ListController: UITableViewController, UISearchBarDelegate {
   //MARK: save data
   func saveData() {
     do {
-      try self.context.save()
     } catch {
       print("Error saving context \(error)")
     }
@@ -269,14 +245,5 @@ extension ListController {
   }
   
   func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-    let request: NSFetchRequest<Items> = Items.fetchRequest()
-    let predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)
-
-    request.predicate = predicate
-    loadData(request, withPredicate: predicate)
-    
-    DispatchQueue.main.async {
-      searchBar.resignFirstResponder()
-    }
   }
 }
