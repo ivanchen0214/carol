@@ -1,0 +1,10 @@
+platform :ios, '9.0'
+
+target 'UseUITableViewControllerByStoryboard' do
+  use_frameworks!
+
+  # Pods for UseUITableViewControllerByStoryboard
+  
+pod 'RealmSwift'
+
+end
