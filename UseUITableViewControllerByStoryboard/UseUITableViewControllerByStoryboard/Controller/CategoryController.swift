@@ -89,6 +89,13 @@ class CategoryController: UIViewController {
   func deleteData(_ category: Categories) {
     do {
       try realm.write {
+        let itemAry: Results<Items>?
+        itemAry = category.items.sorted(byKeyPath: "title", ascending: true)
+
+        if itemAry!.count != 0 {
+          realm.delete(itemAry!)
+        }
+        
         realm.delete(category)
       }
     } catch {
