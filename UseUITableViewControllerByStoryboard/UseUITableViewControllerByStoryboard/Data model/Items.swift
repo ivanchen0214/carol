@@ -11,5 +11,5 @@ import RealmSwift
 class Items: Object {
   @objc dynamic var title: String = ""
   @objc dynamic var selected: Bool = false
-  var parentCategories = LinkingObjects(fromType: Categories.self, property: "items")
+  var parentCategory = LinkingObjects(fromType: Categories.self, property: "items")
 }

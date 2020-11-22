@@ -104,7 +104,7 @@ extension CategoryController: UITableViewDelegate, UITableViewDataSource {
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell", for: indexPath) as UITableViewCell
-    cell.textLabel?.text = self.categoryAry?[indexPath.row].title ?? "No data"
+    cell.textLabel?.text = self.categoryAry?[indexPath.row].title
     
     return cell
   }

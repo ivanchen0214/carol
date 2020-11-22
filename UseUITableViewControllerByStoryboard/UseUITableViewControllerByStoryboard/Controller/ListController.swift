@@ -5,18 +5,18 @@
 //  Created by chen Ivan on 2020/11/14.
 //
 
-// Core Data Path: /Library/Developer/CoreSimulator/Devices/B68B6F20-A1B2-4625-AFF2-263A5BA1C87D/data/Containers/Data/Application/7BA5A189-E6AD-43E3-BD21-B241C9779AA1/Library/Application Support
-
 import UIKit
+import RealmSwift
 
 class ListController: UITableViewController, UISearchBarDelegate {
   @IBOutlet weak var searchBar: UISearchBar!
   
   var actionType: String = ""
+  let realm = try! Realm()
   var addAlert: UIAlertController?
   var editAlert: UIAlertController?
   var deleteAlert: UIAlertController?
-  var itemAry = [Items]()
+  var itemAry: Results<Items>?
   
   var selectedCategory: Categories? {
     didSet {
@@ -62,7 +62,13 @@ class ListController: UITableViewController, UISearchBarDelegate {
       if let text = textField?.text {
         textField?.resignFirstResponder()
         
-        self.saveData()
+        if let currentCategory = self.selectedCategory {
+          let newItem = Items()
+          newItem.title = text
+          newItem.selected = false
+          
+          self.addData(withCategory: currentCategory, withItem: newItem)
+        }
         
         self.tableView.reloadData()
       }
@@ -89,58 +95,35 @@ class ListController: UITableViewController, UISearchBarDelegate {
   }
   
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return itemAry.count
+    return itemAry?.count ?? 0
   }
   
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "itemCell", for: indexPath)
-    cell.textLabel?.text = self.itemAry[indexPath.row].title
     
-    if !itemAry[indexPath.row].selected {
-      cell.accessoryType = UITableViewCell.AccessoryType.none
-    } else {
-      cell.accessoryType = UITableViewCell.AccessoryType.checkmark
+    if let item = itemAry?[indexPath.row] {
+      cell.textLabel?.text = item.title
+      
+      if !item.selected {
+        cell.accessoryType = UITableViewCell.AccessoryType.none
+      } else {
+        cell.accessoryType = UITableViewCell.AccessoryType.checkmark
+      }
     }
     
     return cell
   }
   
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    itemAry[indexPath.row].selected = !itemAry[indexPath.row].selected
+    if let item = itemAry?[indexPath.row] {
+      self.saveData {
+        item.selected = !item.selected
+      }
+    }
+
     tableView.reloadData()
     tableView.deselectRow(at: indexPath, animated: true)
   }
-  
-  //- Editing cell, one button
-  //  override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-  //    deleteAlert = UIAlertController(title: "Delete this one?", message: "", preferredStyle: UIAlertController.Style.alert)
-  //    deleteAlert?.message = itemAry[indexPath.row].title
-  //
-  //    let deleteAction = UIAlertAction(title: "Delete", style: UIAlertAction.Style.default) { (UIAlertAction) in
-  //      self.context.delete(self.itemAry[indexPath.row])
-  //      self.itemAry.remove(at: indexPath.row)
-  //
-  //      do {
-  //        try self.context.save()
-  //      } catch {
-  //        print("Error saving context \(error)")
-  //      }
-  //
-  //      tableView.reloadData()
-  //    }
-  //
-  //    let cancelAction = UIAlertAction(title: "Cancel", style:  UIAlertAction.Style.cancel) { (UIAlertAction) in
-  //      self.deleteAlert?.dismiss(animated: true, completion: nil)
-  //    }
-  //
-  //    deleteAlert?.addAction(deleteAction)
-  //    deleteAlert?.addAction(cancelAction)
-  //    present(deleteAlert!, animated: true, completion: nil)
-  //  }
-  //
-  //  override func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
-  //    return "Delete"
-  //  }
   
   override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
   }
@@ -154,17 +137,19 @@ class ListController: UITableViewController, UISearchBarDelegate {
         alertTextField.keyboardType = UIKeyboardType.default
         alertTextField.returnKeyType = UIReturnKeyType.go
         alertTextField.placeholder = "something..."
-        alertTextField.text = self.itemAry[indexPath.row].title
+        alertTextField.text = self.itemAry?[indexPath.row].title
         alertTextField.addTarget(self, action: #selector(ListController.alertTextFieldDidChange(_:)), for: UIControl.Event.editingChanged)
       }
       
       let editAction = UIAlertAction(title: "Edit", style: UIAlertAction.Style.default) { (UIAlertAction) in
         let textField = self.editAlert?.textFields![0]
         
-        if let text = textField?.text {
+        if let text = textField?.text, let item = self.itemAry?[indexPath.row] {
           textField?.resignFirstResponder()
-          self.itemAry[indexPath.row].setValue(text, forKey: "title")
-          self.saveData()
+          
+          self.saveData {
+            item.title = text
+          }
           
           tableView.reloadData()
         }
@@ -184,12 +169,10 @@ class ListController: UITableViewController, UISearchBarDelegate {
     
     let deleteAction = UIContextualAction(style: UIContextualAction.Style.normal, title: "Delete") { (action, view, completionHandler) in
       self.actionType = "DELETE"
-      self.deleteAlert = UIAlertController(title: "Delete", message: self.itemAry[indexPath.row].title, preferredStyle: UIAlertController.Style.alert)
+      self.deleteAlert = UIAlertController(title: "Delete", message: self.itemAry?[indexPath.row].title, preferredStyle: UIAlertController.Style.alert)
       
       let deleteAction = UIAlertAction(title: "Delete", style: UIAlertAction.Style.default) { (UIAlertAction) in
-        self.itemAry.remove(at: indexPath.row)
-        self.saveData()
-        
+        self.deleteData((self.itemAry?[indexPath.row])!)
         tableView.reloadData()
       }
       
@@ -210,16 +193,38 @@ class ListController: UITableViewController, UISearchBarDelegate {
   
   //MARK: load data
   func loadData() {
+    itemAry = selectedCategory?.items.sorted(byKeyPath: "title", ascending: true)
+    tableView.reloadData()
+  }
+  
+  //MARK: add data
+  func addData(withCategory category: Categories, withItem item: Items) {
     do {
-      tableView.reloadData()
+      try realm.write {
+        category.items.append(item)
+      }
     } catch {
-      print("Error fetch data from context \(error)")
+      print("Error saving context \(error)")
     }
   }
   
   //MARK: save data
-  func saveData() {
+  func saveData(exec: () -> Void) {
     do {
+      try realm.write {
+        exec()
+      }
+    } catch {
+      print("Error saving context \(error)")
+    }
+  }
+  
+  //MARK: delete data
+  func deleteData(_ item: Items) {
+    do {
+      try realm.write {
+        realm.delete(item)
+      }
     } catch {
       print("Error saving context \(error)")
     }
@@ -234,13 +239,8 @@ extension ListController {
         searchBar.resignFirstResponder()
       }
     } else {
-      /*
-      let request: NSFetchRequest<Items> = Items.fetchRequest()
-      let predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchText)
-      request.predicate = predicate
-      
-      loadData(request)
-      */
+      itemAry = itemAry?.filter("title CONTAINS[cd] %@", searchText).sorted(byKeyPath: "title", ascending: true)
+      tableView.reloadData()
     }
   }
   
