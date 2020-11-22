@@ -67,6 +67,11 @@ class ListController: UITableViewController, UISearchBarDelegate {
           newItem.title = text
           newItem.selected = false
           
+          let now = Date()
+          let timeInterval: TimeInterval = now.timeIntervalSince1970
+          let timeStamp = Int(timeInterval)
+          newItem.createdDate = String(timeStamp)
+          
           self.addData(withCategory: currentCategory, withItem: newItem)
         }
         
@@ -102,7 +107,12 @@ class ListController: UITableViewController, UISearchBarDelegate {
     let cell = tableView.dequeueReusableCell(withIdentifier: "itemCell", for: indexPath)
     
     if let item = itemAry?[indexPath.row] {
-      cell.textLabel?.text = item.title
+      let createDate: Date = Date(timeIntervalSince1970: Double(item.createdDate!)!)
+      let dformatter = DateFormatter()
+      dformatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+      
+      cell.textLabel?.numberOfLines = 0
+      cell.textLabel?.text = "[\(dformatter.string(from: createDate))] \n \(item.title)"
       
       if !item.selected {
         cell.accessoryType = UITableViewCell.AccessoryType.none
@@ -193,7 +203,7 @@ class ListController: UITableViewController, UISearchBarDelegate {
   
   //MARK: load data
   func loadData() {
-    itemAry = selectedCategory?.items.sorted(byKeyPath: "title", ascending: true)
+    itemAry = selectedCategory?.items.sorted(byKeyPath: "createdDate", ascending: true)
     tableView.reloadData()
   }
   
