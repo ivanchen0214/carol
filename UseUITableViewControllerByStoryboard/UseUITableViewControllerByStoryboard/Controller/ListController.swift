@@ -215,6 +215,7 @@ extension ListController {
       completionHandler(true)
     }
     editAction.backgroundColor = UIColor.blue
+    editAction.image = UIImage(systemName: "pencil")
     
     let deleteAction = UIContextualAction(style: UIContextualAction.Style.normal, title: "Delete") { (action, view, completionHandler) in
       self.actionType = "DELETE"
@@ -236,6 +237,7 @@ extension ListController {
       completionHandler(true)
     }
     deleteAction.backgroundColor = UIColor.red
+    deleteAction.image = UIImage(systemName: "trash")
     
     return UISwipeActionsConfiguration(actions: [deleteAction, editAction])
   }

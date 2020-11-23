@@ -137,6 +137,7 @@ extension CategoryController: UITableViewDelegate, UITableViewDataSource {
       completionHandler(true)
     }
     deleteAction.backgroundColor = UIColor.red
+    deleteAction.image = UIImage(systemName: "trash")
     
     return UISwipeActionsConfiguration(actions: [deleteAction])
   }
