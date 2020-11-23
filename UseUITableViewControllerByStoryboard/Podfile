@@ -6,5 +6,6 @@ target 'UseUITableViewControllerByStoryboard' do
   # Pods for UseUITableViewControllerByStoryboard
   
 pod 'RealmSwift'
+pod 'SwipeCellKit'
 
 end

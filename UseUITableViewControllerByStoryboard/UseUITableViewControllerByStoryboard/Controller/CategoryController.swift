@@ -7,6 +7,7 @@
 
 import UIKit
 import RealmSwift
+import SwipeCellKit
 
 class CategoryController: UIViewController {
   @IBOutlet weak var tableView: UITableView!
@@ -27,6 +28,7 @@ class CategoryController: UIViewController {
     
     tableView.delegate = self
     tableView.dataSource = self
+    tableView.rowHeight = 60
     
     loadData()
   }
@@ -48,7 +50,7 @@ class CategoryController: UIViewController {
         
         let newCategory = Categories()
         newCategory.title = text
-
+        
         self.saveData(newCategory)
         self.tableView.reloadData()
       }
@@ -88,7 +90,7 @@ class CategoryController: UIViewController {
       try realm.write {
         let itemAry: Results<Items>?
         itemAry = category.items.sorted(byKeyPath: "title", ascending: true)
-
+        
         if itemAry!.count != 0 {
           realm.delete(itemAry!)
         }
@@ -108,38 +110,11 @@ extension CategoryController: UITableViewDelegate, UITableViewDataSource {
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell", for: indexPath) as UITableViewCell
+    let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell", for: indexPath) as! SwipeTableViewCell
     cell.textLabel?.text = self.categoryAry?[indexPath.row].title
+    cell.delegate = self
     
     return cell
-  }
-  
-  func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-  }
-  
-  func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-    let deleteAction = UIContextualAction(style: UIContextualAction.Style.normal, title: "Delete") { (action, view, completionHandler) in
-      self.deleteAlert = UIAlertController(title: "Delete", message: self.categoryAry?[indexPath.row].title, preferredStyle: UIAlertController.Style.alert)
-      
-      let deleteAction = UIAlertAction(title: "Delete", style: UIAlertAction.Style.default) { (UIAlertAction) in
-        self.deleteData((self.categoryAry?[indexPath.row])!)
-        tableView.reloadData()
-      }
-      
-      let cancelAction = UIAlertAction(title: "Cancel", style:  UIAlertAction.Style.cancel) { (UIAlertAction) in
-        self.deleteAlert?.dismiss(animated: true, completion: nil)
-      }
-      
-      self.deleteAlert?.addAction(deleteAction)
-      self.deleteAlert?.addAction(cancelAction)
-      self.present(self.deleteAlert!, animated: true, completion: nil)
-      
-      completionHandler(true)
-    }
-    deleteAction.backgroundColor = UIColor.red
-    deleteAction.image = UIImage(systemName: "trash")
-    
-    return UISwipeActionsConfiguration(actions: [deleteAction])
   }
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -153,4 +128,29 @@ extension CategoryController: UITableViewDelegate, UITableViewDataSource {
       destinationVC.selectedCategory = categoryAry?[indexPath.row]
     }
   }
+}
+
+extension CategoryController: SwipeTableViewCellDelegate {
+  func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+    let deleteAction = SwipeAction(style: .destructive, title: "Delete") { action, indexPath in
+      self.deleteAlert = UIAlertController(title: "Delete", message: self.categoryAry?[indexPath.row].title, preferredStyle: UIAlertController.Style.alert)
+      
+      let deleteBtn = UIAlertAction(title: "Delete", style: UIAlertAction.Style.default) { (UIAlertAction) in
+        self.deleteData((self.categoryAry?[indexPath.row])!)
+        tableView.reloadData()
+      }
+      
+      let cancelBtn = UIAlertAction(title: "Cancel", style:  UIAlertAction.Style.cancel) { (UIAlertAction) in
+        self.deleteAlert?.dismiss(animated: true, completion: nil)
+      }
+      
+      self.deleteAlert?.addAction(deleteBtn)
+      self.deleteAlert?.addAction(cancelBtn)
+      self.present(self.deleteAlert!, animated: true, completion: nil)
+    }
+    deleteAction.image = UIImage(systemName: "trash")
+    
+    return [deleteAction]
+  }
+  
 }
