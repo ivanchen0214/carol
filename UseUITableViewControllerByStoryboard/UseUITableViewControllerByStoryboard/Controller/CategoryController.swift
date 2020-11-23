@@ -68,13 +68,11 @@ class CategoryController: UIViewController {
     addAlert?.actions[0].isEnabled = sender.text!.count > 0
   }
   
-  //MARK: load data
   func loadData() {
     categoryAry = realm.objects(Categories.self)
     tableView.reloadData()
   }
   
-  //MARK: save data
   func saveData(_ category: Categories) {
     do {
       try realm.write {
@@ -85,7 +83,6 @@ class CategoryController: UIViewController {
     }
   }
   
-  //MARK: delete data
   func deleteData(_ category: Categories) {
     do {
       try realm.write {
@@ -104,6 +101,7 @@ class CategoryController: UIViewController {
   }
 }
 
+//MARK: UITableView
 extension CategoryController: UITableViewDelegate, UITableViewDataSource {
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return categoryAry?.count ?? 0

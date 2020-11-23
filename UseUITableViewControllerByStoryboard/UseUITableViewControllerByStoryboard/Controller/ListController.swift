@@ -99,6 +99,45 @@ class ListController: UITableViewController, UISearchBarDelegate {
     }
   }
   
+  func loadData() {
+    itemAry = selectedCategory?.items.sorted(byKeyPath: "createdDate", ascending: true)
+    tableView.reloadData()
+  }
+  
+  func addData(withCategory category: Categories, withItem item: Items) {
+    do {
+      try realm.write {
+        category.items.append(item)
+      }
+    } catch {
+      print("Error saving context \(error)")
+    }
+  }
+  
+  func saveData(exec: () -> Void) {
+    do {
+      try realm.write {
+        exec()
+      }
+    } catch {
+      print("Error saving context \(error)")
+    }
+  }
+  
+  //MARK: delete data
+  func deleteData(_ item: Items) {
+    do {
+      try realm.write {
+        realm.delete(item)
+      }
+    } catch {
+      print("Error saving context \(error)")
+    }
+  }
+}
+
+//MARK: UITableViewController
+extension ListController {
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return itemAry?.count ?? 0
   }
@@ -200,47 +239,9 @@ class ListController: UITableViewController, UISearchBarDelegate {
     
     return UISwipeActionsConfiguration(actions: [deleteAction, editAction])
   }
-  
-  //MARK: load data
-  func loadData() {
-    itemAry = selectedCategory?.items.sorted(byKeyPath: "createdDate", ascending: true)
-    tableView.reloadData()
-  }
-  
-  //MARK: add data
-  func addData(withCategory category: Categories, withItem item: Items) {
-    do {
-      try realm.write {
-        category.items.append(item)
-      }
-    } catch {
-      print("Error saving context \(error)")
-    }
-  }
-  
-  //MARK: save data
-  func saveData(exec: () -> Void) {
-    do {
-      try realm.write {
-        exec()
-      }
-    } catch {
-      print("Error saving context \(error)")
-    }
-  }
-  
-  //MARK: delete data
-  func deleteData(_ item: Items) {
-    do {
-      try realm.write {
-        realm.delete(item)
-      }
-    } catch {
-      print("Error saving context \(error)")
-    }
-  }
 }
 
+//MARK: UISearchBar
 extension ListController {
   func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
     if searchText.count == 0 {
