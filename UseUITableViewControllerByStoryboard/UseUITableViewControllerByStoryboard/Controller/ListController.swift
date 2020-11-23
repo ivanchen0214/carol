@@ -7,6 +7,7 @@
 
 import UIKit
 import RealmSwift
+import SwipeCellKit
 
 class ListController: UITableViewController, UISearchBarDelegate {
   @IBOutlet weak var searchBar: UISearchBar!
@@ -36,6 +37,8 @@ class ListController: UITableViewController, UISearchBarDelegate {
     
     searchBar.delegate = self
     searchBar.autocapitalizationType = UITextAutocapitalizationType.none
+    
+    tableView.rowHeight = 60
   }
   
   @IBAction func pressBackBtn(_ sender: UIBarButtonItem) {
@@ -143,7 +146,7 @@ extension ListController {
   }
   
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: "itemCell", for: indexPath)
+    let cell = tableView.dequeueReusableCell(withIdentifier: "itemCell", for: indexPath) as! SwipeTableViewCell
     
     if let item = itemAry?[indexPath.row] {
       let createDate: Date = Date(timeIntervalSince1970: Double(item.createdDate!)!)
@@ -160,6 +163,8 @@ extension ListController {
       }
     }
     
+    cell.delegate = self
+    
     return cell
   }
   
@@ -169,16 +174,15 @@ extension ListController {
         item.selected = !item.selected
       }
     }
-
+    
     tableView.reloadData()
     tableView.deselectRow(at: indexPath, animated: true)
   }
-  
-  override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-  }
-  
-  override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-    let editAction = UIContextualAction(style: UIContextualAction.Style.normal, title: "Edit") { (action, view, completionHandler) in
+}
+
+extension ListController: SwipeTableViewCellDelegate {
+  func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+    let editAction = SwipeAction(style: .destructive, title: "Edit") { action, indexPath in
       self.actionType = "EDIT"
       self.editAlert = UIAlertController(title: "Edit", message: "", preferredStyle: UIAlertController.Style.alert)
       
@@ -190,7 +194,7 @@ extension ListController {
         alertTextField.addTarget(self, action: #selector(ListController.alertTextFieldDidChange(_:)), for: UIControl.Event.editingChanged)
       }
       
-      let editAction = UIAlertAction(title: "Edit", style: UIAlertAction.Style.default) { (UIAlertAction) in
+      let editBtn = UIAlertAction(title: "Edit", style: UIAlertAction.Style.default) { (UIAlertAction) in
         let textField = self.editAlert?.textFields![0]
         
         if let text = textField?.text, let item = self.itemAry?[indexPath.row] {
@@ -204,42 +208,38 @@ extension ListController {
         }
       }
       
-      let cancelAction = UIAlertAction(title: "Cancel", style:  UIAlertAction.Style.cancel) { (UIAlertAction) in
+      let cancelBtn = UIAlertAction(title: "Cancel", style:  UIAlertAction.Style.cancel) { (UIAlertAction) in
         self.editAlert?.dismiss(animated: true, completion: nil)
       }
       
-      self.editAlert?.addAction(editAction)
-      self.editAlert?.addAction(cancelAction)
+      self.editAlert?.addAction(editBtn)
+      self.editAlert?.addAction(cancelBtn)
       self.present(self.editAlert!, animated: true, completion: nil)
-      
-      completionHandler(true)
     }
     editAction.backgroundColor = UIColor.blue
     editAction.image = UIImage(systemName: "pencil")
     
-    let deleteAction = UIContextualAction(style: UIContextualAction.Style.normal, title: "Delete") { (action, view, completionHandler) in
+    let deleteAction = SwipeAction(style: .destructive, title: "Delete") { action, indexPath in
       self.actionType = "DELETE"
       self.deleteAlert = UIAlertController(title: "Delete", message: self.itemAry?[indexPath.row].title, preferredStyle: UIAlertController.Style.alert)
       
-      let deleteAction = UIAlertAction(title: "Delete", style: UIAlertAction.Style.default) { (UIAlertAction) in
+      let deleteBtn = UIAlertAction(title: "Delete", style: UIAlertAction.Style.default) { (UIAlertAction) in
         self.deleteData((self.itemAry?[indexPath.row])!)
         tableView.reloadData()
       }
       
-      let cancelAction = UIAlertAction(title: "Cancel", style:  UIAlertAction.Style.cancel) { (UIAlertAction) in
+      let cancelBtn = UIAlertAction(title: "Cancel", style:  UIAlertAction.Style.cancel) { (UIAlertAction) in
         self.deleteAlert?.dismiss(animated: true, completion: nil)
       }
       
-      self.deleteAlert?.addAction(deleteAction)
-      self.deleteAlert?.addAction(cancelAction)
+      self.deleteAlert?.addAction(deleteBtn)
+      self.deleteAlert?.addAction(cancelBtn)
       self.present(self.deleteAlert!, animated: true, completion: nil)
-      
-      completionHandler(true)
     }
     deleteAction.backgroundColor = UIColor.red
     deleteAction.image = UIImage(systemName: "trash")
     
-    return UISwipeActionsConfiguration(actions: [deleteAction, editAction])
+    return [deleteAction, editAction]
   }
 }
 
