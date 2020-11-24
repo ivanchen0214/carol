@@ -28,6 +28,7 @@ class CategoryController: UIViewController {
     
     tableView.delegate = self
     tableView.dataSource = self
+    tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
     tableView.rowHeight = 60
     
     loadData()
@@ -130,6 +131,7 @@ extension CategoryController: UITableViewDelegate, UITableViewDataSource {
   }
 }
 
+//MARK: SwipeTableView
 extension CategoryController: SwipeTableViewCellDelegate {
   func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
     let deleteAction = SwipeAction(style: .destructive, title: "Delete") { action, indexPath in

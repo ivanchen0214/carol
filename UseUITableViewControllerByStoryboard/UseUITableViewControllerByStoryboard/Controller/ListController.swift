@@ -38,6 +38,7 @@ class ListController: UITableViewController, UISearchBarDelegate {
     searchBar.delegate = self
     searchBar.autocapitalizationType = UITextAutocapitalizationType.none
     
+    tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
     tableView.rowHeight = 60
   }
   
@@ -180,6 +181,7 @@ extension ListController {
   }
 }
 
+//MARK: SwipeTableView
 extension ListController: SwipeTableViewCellDelegate {
   func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
     let editAction = SwipeAction(style: .destructive, title: "Edit") { action, indexPath in
