@@ -8,6 +8,7 @@
 import UIKit
 import RealmSwift
 import SwipeCellKit
+import ChameleonFramework
 
 class CategoryController: UIViewController {
   @IBOutlet weak var tableView: UITableView!
@@ -112,6 +113,7 @@ extension CategoryController: UITableViewDelegate, UITableViewDataSource {
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell", for: indexPath) as! SwipeTableViewCell
+    cell.backgroundColor = UIColor.randomFlat()
     cell.textLabel?.text = self.categoryAry?[indexPath.row].title
     cell.delegate = self
     
