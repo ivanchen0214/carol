@@ -17,13 +17,10 @@ class CategoryController: UIViewController {
   var addAlert: UIAlertController?
   var deleteAlert: UIAlertController?
   var categoryAry: Results<Categories>?
+  var cellColorAry: [String] = []
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    
-    UINavigationBar.appearance().barTintColor = UIColor.blue
-    UINavigationBar.appearance().tintColor = UIColor.white
-    UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
     
     navigationItem.title = "Category"
     
@@ -33,6 +30,17 @@ class CategoryController: UIViewController {
     tableView.rowHeight = 60
     
     loadData()
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    guard let navBar = navigationController?.navigationBar else { fatalError("Navigation controller does not exist") }
+    
+    navBar.prefersLargeTitles = true
+    navBar.sizeToFit()
+    navBar.backgroundColor = UIColor.blue
+    navBar.barTintColor = UIColor.white
+    navBar.tintColor = UIColor.white
+    navBar.largeTitleTextAttributes = [NSMutableAttributedString.Key.foregroundColor: UIColor.white]
   }
   
   @IBAction func pressAddBtn(_ sender: UIBarButtonItem) {
@@ -74,6 +82,7 @@ class CategoryController: UIViewController {
   
   func loadData() {
     categoryAry = realm.objects(Categories.self)
+    cellColorAry.removeAll()
     tableView.reloadData()
   }
   
@@ -81,6 +90,7 @@ class CategoryController: UIViewController {
     do {
       try realm.write {
         realm.add(category)
+        self.cellColorAry.removeAll()
       }
     } catch {
       print("Error saving context \(error)")
@@ -98,6 +108,7 @@ class CategoryController: UIViewController {
         }
         
         realm.delete(category)
+        self.cellColorAry.removeAll()
       }
     } catch {
       print("Error saving context \(error)")
@@ -112,10 +123,14 @@ extension CategoryController: UITableViewDelegate, UITableViewDataSource {
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    let cellColor = UIColor.randomFlat()
     let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell", for: indexPath) as! SwipeTableViewCell
-    cell.backgroundColor = UIColor.randomFlat()
+    cell.backgroundColor = cellColor
     cell.textLabel?.text = self.categoryAry?[indexPath.row].title
+    cell.textLabel?.textColor = ContrastColorOf(cellColor, returnFlat: true)
     cell.delegate = self
+    
+    cellColorAry.append(cellColor.hexValue())
     
     return cell
   }
@@ -129,6 +144,7 @@ extension CategoryController: UITableViewDelegate, UITableViewDataSource {
     
     if let indexPath = tableView.indexPathForSelectedRow {
       destinationVC.selectedCategory = categoryAry?[indexPath.row]
+      destinationVC.cellColor = cellColorAry[indexPath.row]
     }
   }
 }

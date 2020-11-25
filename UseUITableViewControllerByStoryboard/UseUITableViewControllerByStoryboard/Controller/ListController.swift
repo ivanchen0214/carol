@@ -19,7 +19,7 @@ class ListController: UITableViewController, UISearchBarDelegate {
   var editAlert: UIAlertController?
   var deleteAlert: UIAlertController?
   var itemAry: Results<Items>?
-  var color: String?
+  var cellColor: String?
   
   var selectedCategory: Categories? {
     didSet {
@@ -30,11 +30,6 @@ class ListController: UITableViewController, UISearchBarDelegate {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    // print(dataFilePath)
-    UINavigationBar.appearance().barTintColor = UIColor.blue
-    UINavigationBar.appearance().tintColor = UIColor.white
-    UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-    
     navigationItem.title = "List"
     
     searchBar.delegate = self
@@ -42,8 +37,22 @@ class ListController: UITableViewController, UISearchBarDelegate {
     
     tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
     tableView.rowHeight = 60
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    guard let navBar = navigationController?.navigationBar else { fatalError("Navigation controller does not exist") }
     
-    color = UIColor.randomFlat().hexValue()
+    navBar.prefersLargeTitles = true
+    navBar.sizeToFit()
+    
+    if let color = UIColor(hexString: cellColor!) {
+      navBar.backgroundColor = color
+      navBar.barTintColor = ContrastColorOf(color, returnFlat: true)
+      navBar.tintColor = ContrastColorOf(color, returnFlat: true)
+      navBar.largeTitleTextAttributes = [NSMutableAttributedString.Key.foregroundColor: ContrastColorOf(color, returnFlat: true)]
+      searchBar.barTintColor = color
+      searchBar.searchTextField.backgroundColor = UIColor.white
+    }
   }
   
   @IBAction func pressBackBtn(_ sender: UIBarButtonItem) {
@@ -156,14 +165,15 @@ extension ListController {
     if let item = itemAry?[indexPath.row] {
       let createDate: Date = Date(timeIntervalSince1970: Double(item.createdDate!)!)
       let dformatter = DateFormatter()
-      let cellColor = UIColor(hexString: self.color ?? "#d0f0c0")?.darken(byPercentage: CGFloat(indexPath.row) / CGFloat(self.itemAry!.count))
-
+      
       dformatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
       cell.textLabel?.numberOfLines = 0
-      
-      cell.backgroundColor = cellColor!
-      cell.textLabel?.textColor = ContrastColorOf(cellColor!, returnFlat: true)
       cell.textLabel?.text = "[\(dformatter.string(from: createDate))] \n \(item.title)"
+      
+      if let cellColor = UIColor(hexString: self.cellColor ?? "#d0f0c0")?.darken(byPercentage: CGFloat(indexPath.row) / CGFloat(self.itemAry!.count)) {
+        cell.backgroundColor = cellColor
+        cell.textLabel?.textColor = ContrastColorOf(cellColor, returnFlat: true)
+      }
       
       if !item.selected {
         cell.accessoryType = UITableViewCell.AccessoryType.none
